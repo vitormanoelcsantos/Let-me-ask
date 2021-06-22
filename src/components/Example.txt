@@ -1,9 +1,29 @@
-// type ButtonProps = {
-//   children?: string;
-// }
+=======================================================
 
-// export function Button(props: ButtonProps) {
-//   return (
-//     <button>{props.children || 'Default'}</button>
-//   )
-// }
+type ButtonProps = {
+  children?: string;
+}
+
+export function Button(props: ButtonProps) {
+  return (
+    <button>{props.children || 'Default'}</button>
+  )
+}
+=======================================================
+
+import { useState } from "react";
+
+export function Button() {
+ let number = 0;
+  const [number, setNumber] = useState(0);
+
+  function increment() {
+    setNumber(number + 1);
+    console.log(number);
+  }
+
+  return (
+    <button onClick={increment}>{number}</button>
+  )
+}
+
