@@ -16,6 +16,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
-const database = firebase.database();
+const database = firebase.database(); // Acesso a API de banco de dados do Firebase
 
 export { firebase, auth, database };
