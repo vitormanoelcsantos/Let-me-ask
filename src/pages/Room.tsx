@@ -10,12 +10,34 @@ import { useAuth } from '../hooks/useAuth';
 
 import '../styles/room.scss';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
 
 import { database } from '../services/firebase';
 
+
 type RoomParams = {
   id: string
+}
+
+type FirebaseQuestions = Record<string, {
+  author: {
+    avatar: string,
+    name: string
+  },
+  content: string,
+  isAnswered: boolean,
+  isHighlighted: boolean
+}>
+
+type Questions = {
+  id: string,
+  author: {
+    avatar: string,
+    name: string
+  },
+  content: string,
+  isAnswered: boolean,
+  isHighlighted: boolean
 }
 
 export function Room() {
@@ -26,6 +48,35 @@ export function Room() {
   const [newQuestion, setNewQuestion] = useState('');
 
   const { user, signInWithGoogle } = useAuth();
+
+  const [questions, setQuestions] = useState<Questions[]>([]);
+
+  const [title, setTitle] = useState('');
+
+
+  useEffect(() => {
+
+    const roomRef = database.ref(`/rooms/${roomId}`)
+
+    roomRef.on('value', room => {
+      const databaseRoom = room.val();
+
+      const fireBase: FirebaseQuestions = databaseRoom.questions ?? {};
+
+      const parsedQuestions = Object.entries(fireBase).map(([key, value]) => {
+        return {
+          id: key,
+          content: value.content,
+          author: value.author,
+          isHighlighted: value.isHighlighted,
+          isAnswered: value.isAnswered
+        }
+      });
+
+      setTitle(databaseRoom.title);
+      setQuestions(parsedQuestions);
+    })
+  }, [roomId])
 
   async function handleSendNewQuestion(event: FormEvent) {
     event.preventDefault();
@@ -44,11 +95,13 @@ export function Room() {
         name: user.name,
         avatar: user.avatar
       },
-      isHighligthed: false,
-      isAnsewerd: false
+      isHighlighted: false,
+      isAnswered: false
     }
 
     await database.ref(`rooms/${roomId}/questions`).push(question);
+
+    setNewQuestion('');
   }
 
   return (
@@ -62,8 +115,8 @@ export function Room() {
 
       <main className="content">
         <div className="room-title">
-          <h1>Sala React</h1>
-          <span>4 perguntas</span>
+          <h1>Sala {title}</h1>
+          {questions.length > 0 && <span>{questions.length} pergunta(s)</span>}
         </div>
 
         <form onSubmit={handleSendNewQuestion}>
@@ -73,7 +126,16 @@ export function Room() {
             value={newQuestion}
           />
           <div className="form-footer">
-            <span>Para enviar uma pergunta, <button onClick={signInWithGoogle}>faça seu login</button></span>
+            {user ?
+              <div className="user-info">
+                <img src={user.avatar} alt={user.name} />
+                <span>{user.name}</span>
+              </div>
+              :
+              <span>Para enviar uma pergunta,
+                <button onClick={signInWithGoogle}>faça seu login</button>
+              </span>
+            }
             <Button type="submit" disabled={!user}>Enviar pergunta</Button>
           </div>
         </form>
