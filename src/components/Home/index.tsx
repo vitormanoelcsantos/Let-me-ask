@@ -3,7 +3,7 @@ import logoImg from '../../assets/images/logo.svg';
 import googleIconImg from '../../assets/images/google-icon.svg';
 import logIn from '../../assets/images/login_white_24dp.svg'
 
-import '../Home/style.scss';
+import './styles.scss';
 
 import { Button } from '../Button/Button';
 

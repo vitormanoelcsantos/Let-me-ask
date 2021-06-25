@@ -1,7 +1,7 @@
 import illustrationImg from '../../assets/images/illustration.svg';
 import logoImg from '../../assets/images/logo.svg';
 
-import '../Room/room.scss';
+import '../Room/styles.scss';
 
 import { Button } from '../../components/Button/Button';
 

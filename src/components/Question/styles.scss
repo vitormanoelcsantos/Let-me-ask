@@ -1,8 +1,9 @@
 .question{
   background-color: #fefefe;
   border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
   padding: 24px;
+  margin-top: 30px;
 
   & + .question{
     margin-top: 8px;
@@ -36,6 +37,35 @@
         color: #737380;        
 
         margin-left: 9px;
+      }
+    }
+
+    button{
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+
+      &.like-button{
+        display: flex;
+        align-items: flex-end;
+
+        color: #737380;
+
+        svg {
+          margin-left: 10px;
+        }
+
+        &.liked{
+          color: #835afd;
+          
+          svg{
+            stroke: #835afd;
+          }
+        }
+      }
+
+      &:hover{
+        filter: brightness(0.8);
       }
     }
   }

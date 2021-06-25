@@ -1,44 +1,19 @@
-import logoImg from '../../assets/images/logo.svg';
-
-import { Button } from '../../components/Button/Button';
-
-import { RoomCode } from '../../components/RoomCode/RoomCode';
-
 import { useParams } from 'react-router-dom';
-
-import { useAuth } from '../../hooks/useAuth';
-
-import '../Room/room.scss'
-
-import { FormEvent, useState, useEffect } from 'react';
+import { FormEvent, useState } from 'react';
 
 import { database } from '../../services/firebase';
-
+import { Question } from '../Question';
+import { useRoom } from '../../hooks/useRoom';
+import { useAuth } from '../../hooks/useAuth';
+import { Button } from '../../components/Button/Button';
+import { RoomCode } from '../../components/RoomCode/RoomCode';
+import logoImg from '../../assets/images/logo.svg';
+import './styles.scss'
 
 type RoomParams = {
   id: string
 }
 
-type FirebaseQuestions = Record<string, {
-  author: {
-    avatar: string,
-    name: string
-  },
-  content: string,
-  isAnswered: boolean,
-  isHighlighted: boolean
-}>
-
-type Questions = {
-  id: string,
-  author: {
-    avatar: string,
-    name: string
-  },
-  content: string,
-  isAnswered: boolean,
-  isHighlighted: boolean
-}
 
 export function Room() {
 
@@ -49,34 +24,7 @@ export function Room() {
 
   const { user, signInWithGoogle } = useAuth();
 
-  const [questions, setQuestions] = useState<Questions[]>([]);
-
-  const [title, setTitle] = useState('');
-
-
-  useEffect(() => {
-
-    const roomRef = database.ref(`/rooms/${roomId}`)
-
-    roomRef.on('value', room => {
-      const databaseRoom = room.val();
-
-      const fireBase: FirebaseQuestions = databaseRoom.questions ?? {};
-
-      const parsedQuestions = Object.entries(fireBase).map(([key, value]) => {
-        return {
-          id: key,
-          content: value.content,
-          author: value.author,
-          isHighlighted: value.isHighlighted,
-          isAnswered: value.isAnswered
-        }
-      });
-
-      setTitle(databaseRoom.title);
-      setQuestions(parsedQuestions);
-    })
-  }, [roomId])
+  const { questions, title } = useRoom(roomId);
 
   async function handleSendNewQuestion(event: FormEvent) {
     event.preventDefault();
@@ -103,6 +51,10 @@ export function Room() {
 
     setNewQuestion('');
   }
+
+  // async function handleLikeQuestion() {
+  //   const newLike = await database.ref(``)
+  // }
 
   return (
     <div id="page-room">
@@ -139,6 +91,29 @@ export function Room() {
             <Button type="submit" disabled={!user}>Enviar pergunta</Button>
           </div>
         </form>
+
+        <div className="question-list">
+          {questions.map(questions => {
+            return (
+              <Question
+                key={questions.id}
+                content={questions.content}
+                author={questions.author}
+              >
+                <button
+                  className="like-button"
+                  type="button"
+                  aria-label="Marcar como gostei"
+                >
+                  <span>10</span>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V13C2 12.4696 2.21071 11.9609 2.58579 11.5858C2.96086 11.2107 3.46957 11 4 11H7M14 9V5C14 4.20435 13.6839 3.44129 13.1213 2.87868C12.5587 2.31607 11.7956 2 11 2L7 11V22H18.28C18.7623 22.0055 19.2304 21.8364 19.5979 21.524C19.9654 21.2116 20.2077 20.7769 20.28 20.3L21.66 11.3C21.7035 11.0134 21.6842 10.7207 21.6033 10.4423C21.5225 10.1638 21.3821 9.90629 21.1919 9.68751C21.0016 9.46873 20.7661 9.29393 20.5016 9.17522C20.2371 9.0565 19.9499 8.99672 19.66 9H14Z" stroke="#737380" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+              </Question>
+            )
+          })}
+        </div>
       </main>
     </div>
   );
