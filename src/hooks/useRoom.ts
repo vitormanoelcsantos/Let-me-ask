@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { database } from "../services/firebase";
+import { useAuth } from "./useAuth";
 
 type QuestionsType = {
   id: string,
@@ -10,7 +11,9 @@ type QuestionsType = {
   },
   content: string,
   isAnswered: boolean,
-  isHighlighted: boolean
+  isHighlighted: boolean,
+  likesCounter: number,
+  hasLiked: boolean
 }
 
 type FirebaseQuestions = Record<string, {
@@ -21,6 +24,9 @@ type FirebaseQuestions = Record<string, {
   content: string,
   isAnswered: boolean,
   isHighlighted: boolean
+  likes: Record<string, {
+    authorId: string
+  }>
 }>
 
 export function useRoom(roomId: string) {
@@ -29,11 +35,13 @@ export function useRoom(roomId: string) {
 
   const [title, setTitle] = useState('');
 
+  const { user } = useAuth();
+
   useEffect(() => {
 
     const roomRef = database.ref(`/rooms/${roomId}`)
 
-    roomRef.on('value', room => {
+    const unsubscribeRoomListener = roomRef.on('value', room => {
       const databaseRoom = room.val();
 
       const fireBase: FirebaseQuestions = databaseRoom.questions ?? {};
@@ -44,14 +52,21 @@ export function useRoom(roomId: string) {
           content: value.content,
           author: value.author,
           isHighlighted: value.isHighlighted,
-          isAnswered: value.isAnswered
+          isAnswered: value.isAnswered,
+          likesCounter: Object.values(value.likes ?? {}).length,
+          hasLiked: Object.values(value.likes ?? {}).some(like => like.authorId === user?.id)
         }
       });
 
       setTitle(databaseRoom.title);
       setQuestions(parsedQuestions);
     })
-  }, [roomId])
+
+    return () => {
+      roomRef.off('value');
+    }
+
+  }, [roomId, user?.id])
 
   return { questions, title }
 }
