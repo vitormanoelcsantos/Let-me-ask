@@ -1,18 +1,18 @@
-import logoImg from '../assets/images/logo.svg';
+import logoImg from '../../assets/images/logo.svg';
 
-import { Button } from '../components/Button';
+import { Button } from '../../components/Button/Button';
 
-import { RoomCode } from '../components/RoomCode';
+import { RoomCode } from '../../components/RoomCode/RoomCode';
 
 import { useParams } from 'react-router-dom';
 
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
-import '../styles/room.scss';
+import '../Room/room.scss'
 
 import { FormEvent, useState, useEffect } from 'react';
 
-import { database } from '../services/firebase';
+import { database } from '../../services/firebase';
 
 
 type RoomParams = {
