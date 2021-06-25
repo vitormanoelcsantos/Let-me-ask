@@ -52,9 +52,11 @@ export function Room() {
     setNewQuestion('');
   }
 
-  // async function handleLikeQuestion() {
-  //   const newLike = await database.ref(``)
-  // }
+  async function handleLikeQuestion(questionsId: string) {
+    await database.ref(`rooms/${roomId}/questions/${questionsId}/likes`).push({
+      authorId: user?.id,
+    })
+  }
 
   return (
     <div id="page-room">
@@ -93,17 +95,18 @@ export function Room() {
         </form>
 
         <div className="question-list">
-          {questions.map(questions => {
+          {questions.map(question => {
             return (
               <Question
-                key={questions.id}
-                content={questions.content}
-                author={questions.author}
+                key={question.id}
+                content={question.content}
+                author={question.author}
               >
                 <button
                   className="like-button"
                   type="button"
                   aria-label="Marcar como gostei"
+                  onClick={() => question.id}
                 >
                   <span>10</span>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
