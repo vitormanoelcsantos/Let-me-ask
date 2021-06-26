@@ -45,6 +45,11 @@ export function Home() {
       alert('Room does not exists.');
       return;
     }
+    console.log(roomRef.val());
+    if (roomRef.val().closedAt){
+      alert('Room already close.');
+      return;
+    }
 
     history.push(`/rooms/${roomCode}`);
   }
