@@ -9,7 +9,7 @@ import { Button } from '../Button/Button';
 
 import { useHistory } from 'react-router-dom';
 
-import { useAuth } from '../../hooks/useAuth';
+import { Auth } from '../../hooks/Auth';
 
 import { FormEvent, useState } from 'react';
 
@@ -20,7 +20,7 @@ export function Home() {
 
   const history = useHistory();
 
-  const { user, signInWithGoogle } = useAuth();
+  const { user, signInWithGoogle } = Auth();
 
   const [roomCode, setRoomCode] = useState('');
 
@@ -47,7 +47,7 @@ export function Home() {
     }
     console.log(roomRef.val());
     if (roomRef.val().closedAt){
-      alert('Room already close.');
+      alert('Room already closed.');
       return;
     }
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { database } from "../services/firebase";
-import { useAuth } from "./useAuth";
+import { Auth } from "./Auth";
 
 type QuestionsType = {
   id: string,
@@ -35,7 +35,7 @@ export function useRoom(roomId: string) {
 
   const [title, setTitle] = useState('');
 
-  const { user } = useAuth();
+  const { user } = Auth();
 
   useEffect(() => {
 

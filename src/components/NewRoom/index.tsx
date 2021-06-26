@@ -7,7 +7,7 @@ import { Button } from '../../components/Button/Button';
 
 import { Link, useHistory } from 'react-router-dom';
 
-import { useAuth } from '../../hooks/useAuth';
+import { Auth } from '../../hooks/Auth';
 
 import { FormEvent, useState } from 'react';
 
@@ -15,7 +15,7 @@ import { database } from '../../services/firebase';
 
 
 export function NewRoom() {
-  const { user } = useAuth();
+  const { user } = Auth();
 
   const [newRoom, setNewRoom] = useState('');
 

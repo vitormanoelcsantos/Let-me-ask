@@ -4,7 +4,7 @@ import { FormEvent, useState } from 'react';
 import { database } from '../../services/firebase';
 import { Question } from '../Question';
 import { useRoom } from '../../hooks/useRoom';
-import { useAuth } from '../../hooks/useAuth';
+import { Auth } from '../../hooks/Auth';
 import { Button } from '../../components/Button/Button';
 import { RoomCode } from '../../components/RoomCode/RoomCode';
 import logoImg from '../../assets/images/logo.svg';
@@ -22,7 +22,7 @@ export function Room() {
 
   const [newQuestion, setNewQuestion] = useState('');
 
-  const { user, signInWithGoogle } = useAuth();
+  const { user, signInWithGoogle } = Auth();
 
   const { questions, title } = useRoom(roomId);
 

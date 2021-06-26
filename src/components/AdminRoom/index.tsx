@@ -16,7 +16,7 @@ type RoomParams = {
 }
 
 export function AdminRoom() {
-
+  
   const params = useParams<RoomParams>();
   const roomId = params.id;
 
@@ -32,7 +32,7 @@ export function AdminRoom() {
 
   async function handleEndRoom() {
     await database.ref(`rooms/${roomId}`).update({
-      endedAt: new Date(),
+      closedAt: new Date(),
     });
     
     history.push('/');
