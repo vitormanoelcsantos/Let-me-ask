@@ -90,13 +90,24 @@
             font-weight: 500;
 
             margin-left: 9px;
+           
           }
         }
 
         span{
           font-size: 14px;
           color: #737380;
-          font-weight: 500;         
+          font-weight: 500;     
+          
+          button{
+            background: none;
+            border: 0;
+            cursor: pointer;
+            color: #835AFD;
+            text-decoration: underline;
+            font-weight: 500;
+            margin-left: 5px;
+          }
         }        
       }
     }  
