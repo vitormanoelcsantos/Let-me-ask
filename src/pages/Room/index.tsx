@@ -2,11 +2,11 @@ import { useParams } from 'react-router-dom';
 import { FormEvent, useState } from 'react';
 
 import { database } from '../../services/firebase';
-import { Question } from '../Question';
+import { Question } from '../../components/Question';
 import { useRoom } from '../../hooks/useRoom';
 import { Auth } from '../../hooks/Auth';
-import { Button } from '../../components/Button/Button';
-import { RoomCode } from '../../components/RoomCode/RoomCode';
+import { Button } from '../../components/Button/index';
+import { RoomCode } from '../../components/RoomCode/index';
 
 import logoImg from '../../assets/images/logo.svg';
 

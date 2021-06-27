@@ -3,7 +3,7 @@ import logoImg from '../../assets/images/logo.svg';
 
 import '../Room/styles.scss';
 
-import { Button } from '../../components/Button/Button';
+import { Button } from '../../components/Button/index';
 
 import { Link, useHistory } from 'react-router-dom';
 

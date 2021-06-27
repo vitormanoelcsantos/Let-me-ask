@@ -5,7 +5,7 @@ import logIn from '../../assets/images/login_white_24dp.svg'
 
 import './styles.scss';
 
-import { Button } from '../Button/Button';
+import { Button } from '../../components/Button';
 
 import { useHistory } from 'react-router-dom';
 
@@ -64,7 +64,7 @@ export function Home() {
       </aside>
       <main>
         <div className="main-content">
-          <img src={logoImg} alt="Logo do Letmeask" />
+          <img src={logoImg} alt="Logo do Let me ask" />
           <button onClick={handleCreateRoom} className="create-room">
             <img src={googleIconImg} alt="Logo do Google" />
             Crie sua sala com o Google

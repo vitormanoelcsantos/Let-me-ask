@@ -1,9 +1,9 @@
 import { useHistory, useParams } from 'react-router-dom';
 
-import { Question } from '../Question';
+import { Question } from '../../components/Question';
 import { useRoom } from '../../hooks/useRoom';
-import { Button } from '../../components/Button/Button';
-import { RoomCode } from '../../components/RoomCode/RoomCode';
+import { Button } from '../../components/Button/index';
+import { RoomCode } from '../../components/RoomCode/index';
 import { database } from '../../services/firebase';
 
 import logoImg from '../../assets/images/logo.svg';
@@ -12,7 +12,7 @@ import checkImg from '../../assets/images/check.svg'
 import answerImg from '../../assets/images/answer.svg'
 
 
-import '../Question/styles.scss'
+import '../../components/Question/styles.scss'
 
 type RoomParams = {
   id: string
