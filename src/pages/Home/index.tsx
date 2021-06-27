@@ -5,7 +5,7 @@ import logIn from '../../assets/images/login_white_24dp.svg'
 
 import './styles.scss';
 
-import { Button } from '../../components/Button';
+import { Button } from '../../components/Button/index';
 
 import { useHistory } from 'react-router-dom';
 
